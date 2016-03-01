@@ -19,7 +19,7 @@ func isMatch(inputStr string, matchStr string) bool {
 			inputStr[inputStart:inputStart+1] == matchStr[matchStart:matchStart+1] {
 			matchStart++
 			inputStart++
-			if matchStart == len(matchStr) {
+			if matchStart == len(matchStr) && matchStart == len(inputStr) {
 				return true
 
 			}
@@ -36,5 +36,5 @@ func isMatch(inputStr string, matchStr string) bool {
 
 func main() {
 
-	fmt.Println(isMatch("hello", "h?llo"))
+	fmt.Println(isMatch("hello", "h??o"))
 }
