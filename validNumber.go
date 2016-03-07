@@ -1,6 +1,6 @@
 // Source : https://oj.leetcode.com/problems/valid-number/
 // Author : 18plusui
-// Date   : 2016-03-04
+// Date   : 2016-03-07
 
 /**********************************************************************************
 *
@@ -22,85 +22,95 @@ package main
 
 import (
 	"fmt"
-	"regexp"
+	"unicode"
 )
 
-var numRe = regexp.MustCompile(`^[0-9]`)
-
 func isNumber(s string) bool {
+
 	var dot bool
 	var hasE bool
 	var curr int
 	var slen int = len(s)
-	for isSpace(s[curr : curr+1]) {
 
-		curr++
-		if curr == slen {
-			return false
+	for _, c := range s {
+
+		if unicode.IsSpace(c) {
+			curr++
+			continue
 		}
+
+		break
+
 	}
 
-	if s[curr:curr+1] == "+" || s[curr:curr+1] == "-" {
+	if curr == slen {
+		return false
+	}
+
+	if s[curr] == '+' || s[curr] == '-' {
 		curr++
 	}
 
-	for s[curr:curr+1] != "0" {
+	if !unicode.IsDigit(rune(s[curr])) {
+		return false
+	} else {
 		curr++
-		if s[curr:curr+1] == "." {
+	}
+
+	tmpSlice := s[curr:]
+
+	for i := 0; i != len(tmpSlice); i++ {
+
+		if tmpSlice[i] == '.' {
 			if hasE == true || dot == true {
 				return false
 			}
-			if !isDigit(s[curr : curr+1]) {
+
+			i++
+
+			if !unicode.IsDigit(rune(tmpSlice[i])) {
 				return false
 			}
+
 			dot = true
 			continue
 
 		}
 
-		if s[curr:curr+1] == "e" {
+		if tmpSlice[i] == 'e' {
+
 			if hasE == true {
 				return false
 			}
-			curr++
-			if s[curr:curr+1] == "+" || s[curr:curr+1] == "-" {
-				curr++
+			i++
+			if tmpSlice[i] == '+' || tmpSlice[i] == '-' {
+				i++
 			}
-			if !isDigit(s[curr : curr+1]) {
+			if !unicode.IsDigit(rune(tmpSlice[i])) {
 				return false
 			}
 			hasE = true
 			continue
 		}
 
-		if isSpace(s[curr : curr+1]) {
-			for s[curr:curr+1] != "0" {
+		if unicode.IsSpace(rune(tmpSlice[i])) {
 
-				if !isSpace(s[curr : curr+1]) {
+			for _, c := range tmpSlice[i:] {
+				if !unicode.IsSpace(c) {
 					return false
 				}
-				curr++
+
 			}
+			return true
 		}
 
-		if !isDigit(s[curr : curr+1]) {
+		if !unicode.IsDigit(rune(tmpSlice[i])) {
 			return false
 		}
 
 	}
 
 	return true
-}
-
-func isDigit(c string) bool {
-	return numRe.MatchString(c)
-}
-
-func isSpace(c string) bool {
-	if c == " " {
-		return true
-	}
-	return false
 }
 
 func main() {
@@ -110,6 +120,7 @@ func main() {
 	fmt.Println(isNumber("0"))
 	fmt.Println(isNumber("abc"))
 	fmt.Println(isNumber("1 a"))
-	fmt.Println(isNumber("2e10"))
+	fmt.Println(isNumber("2.2e10"))
+	fmt.Println(isNumber("-2.2e-4"))
 
 }
