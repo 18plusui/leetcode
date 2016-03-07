@@ -51,11 +51,11 @@ func isNumber(s string) bool {
 		curr++
 	}
 
-	if !unicode.IsDigit(rune(s[curr])) {
-		return false
-	} else {
-		curr++
-	}
+	// if !unicode.IsDigit(rune(s[curr])) {
+	// 	return false
+	// } else {
+	// 	curr++
+	// }
 
 	tmpSlice := s[curr:]
 
@@ -67,10 +67,12 @@ func isNumber(s string) bool {
 			}
 
 			i++
-
-			if !unicode.IsDigit(rune(tmpSlice[i])) {
-				return false
+			if i == len(tmpSlice) {
+				return true
 			}
+			// if !unicode.IsDigit(rune(tmpSlice[i])) {
+			// 	return false
+			// }
 
 			dot = true
 			continue
@@ -122,5 +124,7 @@ func main() {
 	fmt.Println(isNumber("1 a"))
 	fmt.Println(isNumber("2.2e10"))
 	fmt.Println(isNumber("-2.2e-4"))
+	fmt.Println(isNumber("1."))
+	fmt.Println(isNumber(".981723"))
 
 }
