@@ -50,9 +50,13 @@ func fullJustify(input []string, long int) []string {
 	var lastLine bool
 	var result []string
 	for i := 0; i < len(input); i++ {
+
 		slen += len(input[i])
+		// + i mean letter before have one space
 		if slen+i-start > long || i == len(input)-1 {
+
 			if slen+i-start > long {
+
 				slen -= len(input[i])
 				end = i - 1
 				lastLine = false
@@ -74,9 +78,10 @@ func fullJustify(input []string, long int) []string {
 			}
 
 			var line string = input[start]
-			for j := start + 1; j <= end; j++ {
+
+			for j := start + 1; j <= i-1; j++ {
 				for k := 0; k < mspace && space > 0; k++ {
-					line += ""
+					line += " "
 					space--
 				}
 				if j-start-1 < extra {
@@ -105,5 +110,8 @@ func fullJustify(input []string, long int) []string {
 
 func main() {
 	test := []string{"This", "is", "an", "example", "of", "text", "justification."}
-	fmt.Println(fullJustify(test, 16))
+	res := fullJustify(test, 16)
+	for _, v := range res {
+		fmt.Println(v)
+	}
 }
