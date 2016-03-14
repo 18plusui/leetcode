@@ -110,7 +110,7 @@ func getSkyline(input [][]int) []point {
 
 	var pre, curr int
 	var m []int
-
+	var mLen int
 	m = append(m, 0)
 
 	for i := 0; i < len(edges); i++ {
@@ -128,17 +128,16 @@ func getSkyline(input [][]int) []point {
 				if v == e.y {
 
 					m = append(m[:j], m[j+1:]...)
-					fmt.Println("after: ", m)
 
 				}
 
 			}
 
 		}
-		reverse(m)
-		curr = m[0]
-		reverse(m)
-		fmt.Println("curr && pre :", curr, pre, e.x)
+		mLen = len(m)
+
+		curr = m[mLen-1]
+
 		if curr != pre {
 			res = append(res, point{e.x, curr})
 			pre = curr
