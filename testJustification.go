@@ -52,7 +52,7 @@ func fullJustify(input []string, long int) []string {
 	for i := 0; i < len(input); i++ {
 
 		slen += len(input[i])
-		// + i mean letter before have one space
+	
 		if slen+i-start > long || i == len(input)-1 {
 
 			if slen+i-start > long {
