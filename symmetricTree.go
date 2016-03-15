@@ -60,33 +60,71 @@ type Tree struct {
 
 func CreateSymmetricTree(inputArr []int) *Tree {
 	var t *Tree
+	var count int
 	for _, v := range inputArr {
 
-		t = insert(t, v)
+		t = insertLeft(t, v, count)
+	}
+
+	count = 0
+	for _, v := range inputArr {
+
+		if v == t.Value {
+			continue
+		}
+
+		t = insertRight(t, v, count)
 	}
 	return t
 }
 
-func insert(t *Tree, v int) *Tree {
-
+func insertLeft(t *Tree, v, count int) *Tree {
+	count++
 	if t == nil {
 		return &Tree{nil, v, nil}
 	}
 
 	if t.Left == nil {
 
-		t.Left = insert(t.Left, v)
-		return t
-	} else if t.Right == nil {
-
-		t.Right = insert(t.Right, v)
+		t.Left = insertLeft(t.Left, v, count)
 		return t
 	}
+
+	if t.Left == nil || count == 1 {
+
+		t.Left = insertLeft(t.Left, v, count)
+		return t
+	}
+
+	t.Right = insertLeft(t.Right, v, count)
 
 	return t
 }
 
-// above code is generateTree
+func insertRight(t *Tree, v, count int) *Tree {
+	count++
+	if t == nil {
+		return &Tree{nil, v, nil}
+	}
+
+	if t.Right == nil {
+
+		t.Right = insertRight(t.Right, v, count)
+		return t
+	}
+
+	if t.Right == nil || count == 1 {
+
+		t.Right = insertRight(t.Right, v, count)
+		return t
+	}
+
+	t.Left = insertRight(t.Left, v, count)
+
+	return t
+}
+
+// above code is generate Symmetric Tree
 
 func isSymmetric(t *Tree) bool {
 	if t == nil {
@@ -122,8 +160,7 @@ func printer(t *Tree) {
 
 func main() {
 
-	inputArr := []int{6, 4, 4}
-	// create low level SymmetricTree , if you need to check high level ,You can change it && push request for me
+	inputArr := []int{6, 5, 4, 3, 2, 1}
 	t := CreateSymmetricTree(inputArr)
 
 	printer(t)
