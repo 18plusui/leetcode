@@ -17,33 +17,30 @@ import (
 )
 
 func lengthOfLongestSubstring(s string) int {
-
-	m := make(map[string]int)
-	var maxLen int
-	var lastRepeatPos int = 0
-
-	for i := 0; i < len(s); i++ {
-
-		if _, ok := m[string(s[i])]; ok && lastRepeatPos < m[string(s[i])] {
-			fmt.Println("lastPos : ", m[string(s[i])])
-			lastRepeatPos = m[string(s[i])]
-			continue
-		}
-
-		if _, ok := m[string(s[i])]; !ok {
-			m[string(s[i])] = i
-		}
-
-		fmt.Println("map : ", m)
-
-	}
-
-	if lastRepeatPos == 0 {
-		maxLen = 1
-	} else {
-		maxLen = lastRepeatPos + 1
-	}
-	return maxLen
+    var cnt [255]int
+    var start int = -1
+    var maxLen int = 0
+    var length int = len(s)
+    for i := 0; i < 255; i++ {
+        cnt[i] = -1
+    }
+    
+    for end:= 0; end < length;  {
+        if cnt[int(s[end])] == -1 {
+            cnt[int(s[end])] = end
+            if end - start > maxLen {
+                maxLen = end - start
+            }
+            end++
+        } else {
+            for i := start + 1; i < cnt[int(s[end])]; i++ {
+                cnt[int(s[i])] = -1
+            }
+            start = cnt[int(s[end])]
+            cnt[int(s[end])] = -1
+        }
+    }
+    return maxLen
 }
 
 func main() {
