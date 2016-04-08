@@ -32,8 +32,8 @@ import (
 )
 
 const (
-	INT_MAX int = 2149483647
-	INT_MIN int = -2149483648
+	INT_MAX int = 2147483647
+	INT_MIN int = -2147483648
 )
 
 func reverse(x int) int {
