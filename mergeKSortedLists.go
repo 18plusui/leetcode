@@ -16,7 +16,6 @@ import (
 
 func mergeKLists(lists []*ListNode) *ListNode {
 	dummy := new(ListNode)
-	dummy.Next = nil
 	curr := dummy
 
 	length := len(lists)
