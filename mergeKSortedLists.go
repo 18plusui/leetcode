@@ -13,29 +13,44 @@ package main
 import (
 	"fmt"
 )
+// Source : https://oj.leetcode.com/problems/merge-k-sorted-lists/
+// Author : 18plusui
+// Date   : 2016-04-23
 
-func mergeTwoList(l1, l2, result *ListNode) *ListNode {
+/**********************************************************************************
+*
+* Merge k sorted linked lists and return it as one sorted list. Analyze and describe its complexity.
+*
+***********************************************************************************/
 
-	if l1 != nil && l2 != nil {
-		if l1.Val < l2.Val {
-			result.Next = l1
-			l1 = l1.Next
-			if l1 == nil {
-				result.Next.Next = l2
-			}
+package main
 
-		} else {
-			result.Next = l2
-			l2 = l2.Next
-			if l2 == nil {
-				result.Next.Next = l1
+import (
+	"fmt"
+)
+
+func mergeKLists(lists []*ListNode) *ListNode {
+	dummy := new(ListNode)
+	dummy.Next = nil
+	curr := dummy
+
+	length := len(lists)
+	for {
+		minPos := -1
+		for i := 0; i < length; i++ {
+			if lists[i] != nil && (minPos == -1 || lists[minPos].Val > lists[i].Val) {
+				minPos = i
 			}
 		}
-
-		mergeTwoList(l1, l2, result.Next)
+		if minPos == -1 {
+			break
+		}
+		curr.Next = lists[minPos]
+		lists[minPos] = lists[minPos].Next
+		curr = curr.Next
 	}
 
-	return result.Next
+	return dummy.Next
 }
 
 type ListNode struct {
@@ -85,8 +100,10 @@ func main() {
 	lb := new(ListNode)
 	lb = createList(b, lb)
 
-	result := new(ListNode)
-	ln := mergeTwoList(la, lb, result)
+	var lns []*ListNode
+	lns = append(lns, la)
+	lns = append(lns, lb)
 
+	ln := mergeKLists(lns)
 	printList(ln)
 }
