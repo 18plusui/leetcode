@@ -19,38 +19,21 @@
 
 package leetcode
 
-// import (
-// 	"fmt"
-// )
+func twoSum(nums []int, target int) []int {
+	var result []int
 
-func Sum2ptr(arr *[]int, target int) {
+	numslen := len(nums)
+	for i := 0; i < numslen; i++ {
+		for j := i + 1; j < numslen; j++ {
+			if target-nums[i] == nums[j] {
 
-	arrLen := len(*arr)
+				result = append(result, i)
+				result = append(result, j)
 
-	for i := 0; i < arrLen; i++ {
-
-		for j := i + 1; j < arrLen; j++ {
-			if target-(*arr)[i] == (*arr)[j] {
-				// fmt.Println((*arr)[i], (*arr)[j])
+				return result
 			}
 
 		}
 	}
-
-}
-
-func Sum2arr(arr []int, target int) {
-
-	arrLen := len(arr)
-
-	for i := 0; i < arrLen; i++ {
-
-		for j := i + 1; j < arrLen; j++ {
-			if target-arr[i] == arr[j] {
-				// fmt.Println(arr[i], arr[j])
-			}
-
-		}
-	}
-
+	return result
 }
